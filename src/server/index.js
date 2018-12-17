@@ -5,5 +5,5 @@ const app = express();
 
 app.use(express.static(path.resolve(__dirname, 'assets')));
 
-app.listen(8800);
+app.listen(8000);
 

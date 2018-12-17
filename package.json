@@ -6,7 +6,9 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "nodemon dist/index.js"
+    "build-dev": "webpack --mode development",
+    "start": "nodemon dist/index.js",
+    "start-dev": "webpack-dev-server --mode development"
   },
   "dependencies": {
     "@babel/core": "^7.2.0",
@@ -17,12 +19,16 @@
     "css-loader": "^2.0.0",
     "express": "^4.16.4",
     "file-loader": "^2.0.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.18.8",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-hot-loader": "^4.6.1",
     "style-loader": "^0.23.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
     "webpack-node-externals": "^1.7.2"
   }
 }

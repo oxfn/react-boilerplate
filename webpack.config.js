@@ -1,15 +1,32 @@
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+
+const externals = ['react', 'react-dom'];
 
 module.exports = [
 
   // Client build
   {
-    entry: './src/client/index.js',
+    entry: {
+      app: './src/client/index.js',
+      // vendor: externals,
+    },
     output: {
       path: path.resolve(__dirname, 'dist/assets'),
-      filename: 'bundle.js',
+      filename: '[name].js',
+    },
+    // externals,
+    devServer: {
+      // contentBase: path.resolve(__dirname, 'dist/assets'),
+      publicPath: '/',
+      hot: true,
+      port: 9000,
+      proxy: {
+        '/api': 'localhost:8000',
+      },
+      // watchContentBase: true,
     },
     module: {
       rules: [
@@ -18,12 +35,16 @@ module.exports = [
           loader: 'babel-loader',
           options: {
             plugins: ['transform-class-properties'],
-            presets: ['@babel/env', '@babel/react'],
+            presets: ['@babel/react', '@babel/env'],
           },
         },
         {
           test: /\.css$/,
           use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.html/,
+          loader: 'html-loader',
         },
         {
           test: /\.(jpg|png|gif|svg)$/,
@@ -33,7 +54,25 @@ module.exports = [
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
+      new HtmlWebpackPlugin({
+        template: 'public/index.html',
+      }),
     ],
+    optimization: {
+      splitChunks: {
+        chunks: 'async',
+        cacheGroups: {
+          vendor: {
+            test: /[/\\]node_modules[/\\]/,
+            priority: -10,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+          },
+        },
+      },
+    },
   },
 
   // Server build
