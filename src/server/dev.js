@@ -5,18 +5,14 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const apiMiddleware = require('./api');
 
-const main = () => {
-  const app = express();
-  const webpackCompiler = webpack(webpackConfig);
+const app = express();
+const webpackCompiler = webpack(webpackConfig);
 
-  app.use(webpackHotMiddleware(webpackCompiler));
-  app.use(webpackDevMiddleware(webpackCompiler, {
-    noInfo: true,
-    publicPath: webpackConfig.output.publicPath,
-    writeToDisk: true,
-  }));
-  app.use('/api', apiMiddleware);
-  app.listen(8001);
-}
-
-main();
+app.use(webpackHotMiddleware(webpackCompiler));
+app.use(webpackDevMiddleware(webpackCompiler, {
+  noInfo: true,
+  publicPath: webpackConfig.output.publicPath,
+  writeToDisk: true,
+}));
+app.use('/api', apiMiddleware);
+app.listen(8001);
