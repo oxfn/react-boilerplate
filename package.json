@@ -5,17 +5,23 @@
   "author": "oxfn <oxfn@ya.ru>",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode production",
-    "build-dev": "webpack --mode development",
-    "start": "nodemon dist/index.js",
-    "start-dev": "webpack-dev-server --mode development"
+    "clean": "rm -rf dist",
+    "build": "yarn clean; webpack --mode production",
+    "build-dev": "yarn clean; webpack --mode development",
+    "start": "yarn build; node src/server/index.js",
+    "start-dev": "yarn clean; nodemon --watch ./src/server --watch webpack.config.js src/server/dev.js --mode development"
   },
   "dependencies": {
     "@babel/core": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.2.0",
+    "axios": "^0.18.0",
     "babel-loader": "^8.0.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "classnames": "^2.2.6",
+    "concurrently": "^4.1.0",
     "css-loader": "^2.0.0",
     "express": "^4.16.4",
     "file-loader": "^2.0.0",
@@ -25,10 +31,14 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-hot-loader": "^4.6.1",
+    "rimraf": "^2.6.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10",
+    "webpack-hot-middleware": "^2.24.3",
     "webpack-node-externals": "^1.7.2"
+  },
+  "devDependencies": {
+    "webpack-dev-middleware": "^3.4.0"
   }
 }

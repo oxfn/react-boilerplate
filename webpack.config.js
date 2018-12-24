@@ -1,63 +1,76 @@
 const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-const externals = ['react', 'react-dom'];
+const PATH_APP_SRC = path.resolve(__dirname, 'src/client/index.js');
 
-module.exports = [
-
-  // Client build
-  {
-    entry: {
-      app: './src/client/index.js',
-      // vendor: externals,
-    },
-    output: {
-      path: path.resolve(__dirname, 'dist/assets'),
-      filename: '[name].js',
-    },
-    // externals,
-    devServer: {
-      // contentBase: path.resolve(__dirname, 'dist/assets'),
-      publicPath: '/',
-      hot: true,
-      port: 9000,
-      proxy: {
-        '/api': 'localhost:8000',
-      },
-      // watchContentBase: true,
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          loader: 'babel-loader',
-          options: {
-            plugins: ['transform-class-properties'],
-            presets: ['@babel/react', '@babel/env'],
-          },
-        },
-        {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
-        },
-        {
-          test: /\.html/,
-          loader: 'html-loader',
-        },
-        {
-          test: /\.(jpg|png|gif|svg)$/,
-          loader: 'file-loader',
-        },
-      ]
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
+module.exports = (env, argv) => {
+  const mode = argv.mode || 'development';
+  const isDev = mode === 'development';
+  const app = [PATH_APP_SRC];
+  const plugins = [
       new HtmlWebpackPlugin({
         template: 'public/index.html',
       }),
-    ],
+  ];
+  if (isDev) {
+    app.unshift('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000');
+    plugins.unshift(new webpack.HotModuleReplacementPlugin());
+  }
+  return {
+    mode,
+    entry: {
+      app,
+    },
+    output: {
+      path: path.resolve(__dirname, 'dist/assets'),
+      publicPath: '/',
+      filename: '[name].js',
+    },
+    module: {
+      rules: [{
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          plugins: [
+            'transform-class-properties',
+            ['@babel/transform-runtime', {
+              regenerator: true,
+            }],
+            'react-hot-loader/babel',
+          ],
+          presets: [
+            '@babel/react',
+            ['@babel/env', {
+              useBuiltIns: false,
+            }],
+          ],
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            }
+          }
+        ],
+      },
+      {
+        test: /\.html/,
+        loader: 'html-loader',
+      },
+      {
+        test: /\.(jpg|png|gif|svg)$/,
+        loader: 'file-loader',
+      },
+      ]
+    },
+    plugins,
     optimization: {
       splitChunks: {
         chunks: 'async',
@@ -73,32 +86,9 @@ module.exports = [
         },
       },
     },
-  },
-
-  // Server build
-  {
-    entry: './src/server/index.js',
-    target: 'node',
-    externals: [nodeExternals()],
-    node: {
-      __dirname: false,
-      __filename: false,
-    },
-    output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'index.js',
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/env'],
-          },
-        },
-      ],
-    },
-  },
-];
-
+    devServer: {
+      hot: true,
+      publicPath: '/',
+    }
+  };
+}
