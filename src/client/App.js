@@ -1,31 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { hot } from 'react-hot-loader/root';
+import TimeDisplay from './blocks/TimeDisplay';
+import AskServer from './blocks/AskServer';
+import global from './global.css';
 import styles from './App.css';
 
-export default class App extends Component
+class App extends React.Component
 {
-  constructor() {
-    super();
-    this.interval = null;
-    this.state = {
-    };
-  }
-
-  update = () => {
-    this.setState({
-      date: new Date().toString(),
-    });
-  }
-
-  componentDidMount() {
-    this.update();
-    this.interval = setInterval(this.update, 1000);
-  }
-
   render() {
-    return (<div>
-      <h1>Hello, Porg!</h1>
-      <p>It is {this.state.date} now</p>
-    </div>)
+    return (
+      <div className={styles.wrapper}>
+        <h1>Hello, Reactive World!</h1>
+        <TimeDisplay />
+        <AskServer />
+      </div>);
   }
 }
 
+export default hot(App);

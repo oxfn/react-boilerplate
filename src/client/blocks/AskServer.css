@@ -1,0 +1,9 @@
+.label {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.value {
+  display: inline-block;
+  min-width: 36px;
+}

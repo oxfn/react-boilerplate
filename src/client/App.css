@@ -7,3 +7,21 @@ body {
   font-family: sans-serif;
 }
 
+h1 {
+  margin: 10px 0 20px;
+}
+
+button {
+  padding: 4px;
+  margin: 10px;
+  border-radius: 4px;
+}
+
+button {
+  outline: none;
+}
+
+.wrapper {
+  width: 1000px;
+  margin: 100px auto;
+}
