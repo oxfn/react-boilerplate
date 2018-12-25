@@ -6,6 +6,7 @@
  - General purpose Webpack 4 config
  - Dev mode via Express webpack-dev-middleware / webpack-hot-middleware (+ nodemon for server-code live reload)
  - Babel with common plugins & presets
+ - Code linting support (ESLint)
  - Simple client-server demo application
 
 ## Scripts
@@ -18,5 +19,4 @@
 
 ## To be done
 
- - Code linting support
  - Testing framework

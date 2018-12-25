@@ -43,16 +43,17 @@ export default class AskServer extends React.Component {
   };
 
   render() {
-    const valueClass = cn(this.state.error ? global.important : null, styles.value);
+    const { response, error } = this.state;
+    const valueClass = cn(error ? global.important : null, styles.value);
     return (
       <Block>
-        <button onClick={this.handleAsk}>Ask server</button>
-        {this.state.response &&
+        <button type="button" onClick={this.handleAsk}>Ask server</button>
+        {response && (
           <span>
             <span className={styles.label}>Server says:</span>
-            <strong className={valueClass}>{this.state.response}</strong>
+            <strong className={valueClass}>{response}</strong>
           </span>
-        }
+        )}
       </Block>
     );
   }

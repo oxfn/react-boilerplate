@@ -9,9 +9,9 @@ module.exports = (env, argv) => {
   const isDev = mode === 'development';
   const app = [PATH_APP_SRC];
   const plugins = [
-      new HtmlWebpackPlugin({
-        template: 'public/index.html',
-      }),
+    new HtmlWebpackPlugin({
+      template: 'public/index.html',
+    }),
   ];
   if (isDev) {
     app.unshift('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000');
@@ -33,19 +33,6 @@ module.exports = (env, argv) => {
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
-          plugins: [
-            'transform-class-properties',
-            ['@babel/transform-runtime', {
-              regenerator: true,
-            }],
-            'react-hot-loader/babel',
-          ],
-          presets: [
-            '@babel/react',
-            ['@babel/env', {
-              useBuiltIns: false,
-            }],
-          ],
         },
       },
       {
@@ -56,8 +43,8 @@ module.exports = (env, argv) => {
             loader: 'css-loader',
             options: {
               modules: true,
-            }
-          }
+            },
+          },
         ],
       },
       {
@@ -67,8 +54,7 @@ module.exports = (env, argv) => {
       {
         test: /\.(jpg|png|gif|svg)$/,
         loader: 'file-loader',
-      },
-      ]
+      }],
     },
     plugins,
     optimization: {
@@ -89,6 +75,6 @@ module.exports = (env, argv) => {
     devServer: {
       hot: true,
       publicPath: '/',
-    }
+    },
   };
-}
+};

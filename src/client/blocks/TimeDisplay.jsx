@@ -11,23 +11,28 @@ export default class TimeDisplay extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.update();
+    this.interval = setInterval(this.update, 1000);
+  }
+
   update = () => {
     this.setState({
       date: new Date().toString(),
     });
   }
 
-  componentDidMount() {
-    this.update();
-    this.interval = setInterval(this.update, 1000);
-  }
-
   render() {
+    const { date } = this.state;
     return (
       <Block>
         <div style={{ lineHeight: '24px' }}>
-          <img src={clockImage} alt="" width="24" height="24" style={{ margin: '0 12px -7px 0' }}/>
-          <span>It is <span className={global.important}>{this.state.date}</span> now</span>
+          <img src={clockImage} alt="" width="24" height="24" style={{ margin: '0 12px -7px 0' }} />
+          <span>
+            It is
+            <span className={global.important}>{date}</span>
+            now
+          </span>
         </div>
       </Block>
     );
