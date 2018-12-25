@@ -30,7 +30,9 @@ export default class TimeDisplay extends React.Component {
           <img src={clockImage} alt="" width="24" height="24" style={{ margin: '0 12px -7px 0' }} />
           <span>
             It is
+            &nbsp;
             <span className={global.important}>{date}</span>
+            &nbsp;
             now
           </span>
         </div>

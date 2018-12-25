@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-const PATH_APP_SRC = path.resolve(__dirname, 'src/client/index.js');
+const PATH_APP_SRC = path.resolve(__dirname, 'src/client/index');
 
 module.exports = (env, argv) => {
   const mode = argv.mode || 'development';
@@ -29,11 +29,9 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [{
-        test: /\.js$/,
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
-        options: {
-        },
       },
       {
         test: /\.css$/,
@@ -57,24 +55,5 @@ module.exports = (env, argv) => {
       }],
     },
     plugins,
-    optimization: {
-      splitChunks: {
-        chunks: 'async',
-        cacheGroups: {
-          vendor: {
-            test: /[/\\]node_modules[/\\]/,
-            priority: -10,
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
-          },
-        },
-      },
-    },
-    devServer: {
-      hot: true,
-      publicPath: '/',
-    },
   };
 };
