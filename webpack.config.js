@@ -55,5 +55,10 @@ module.exports = (env, argv) => {
       }],
     },
     plugins,
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+      },
+    },
   };
 };
